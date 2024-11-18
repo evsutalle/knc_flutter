@@ -485,109 +485,150 @@ class _SouvenirPageState extends State<SouvenirPage> {
     ));
   }
 
- @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Souvenir Services', style: TextStyle(color: Colors.white)),
-        backgroundColor: Color(0xFF2196F3), // Material Blue
-      ),
-      body: isLoading
-          ? Center(child: CircularProgressIndicator())
-          : ListView.builder(
+@override
+Widget build(BuildContext context) {
+  return Scaffold(
+    appBar: AppBar(
+      title: Text('Souvenir Services', style: TextStyle(color: Colors.white)),
+      backgroundColor: Color(0xFF2196F3), // Material Blue
+    ),
+    body: isLoading
+        ? Center(child: CircularProgressIndicator())
+        : Container(
+            color: Colors.grey[100], // Background color for the screen
+            child: ListView.builder(
               itemCount: services.length,
               itemBuilder: (context, index) {
                 final service = services[index];
-                return Card(
-                  color: const Color(0xFFB9E5E8), // Set card background color
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Center(
-                          child: GestureDetector(
-                            onTap: () {
-                              _showZoomableImage(
-                                  context, service['uploaded_image_url']);
-                            },
-                            child: CachedNetworkImage(
-                              imageUrl: service['uploaded_image_url'],
-                              placeholder: (context, url) =>
-                                  CircularProgressIndicator(),
-                              errorWidget: (context, url, error) =>
-                                  Icon(Icons.error),
+                return Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                  child: Card(
+                    elevation: 5, // Slight elevation for better visibility
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10), // Rounded edges
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          // Image Section
+                          Center(
+                            child: Container(
                               width: 250,
                               height: 250,
-                              fit: BoxFit.cover,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.2), // Subtle shadow
+                                    spreadRadius: 2,
+                                    blurRadius: 5,
+                                    offset: Offset(0, 3),
+                                  ),
+                                ],
+                              ),
+                              child: GestureDetector(
+                                onTap: () {
+                                  _showZoomableImage(context, service['uploaded_image_url']);
+                                },
+                                child: CachedNetworkImage(
+                                  imageUrl: service['uploaded_image_url'],
+                                  placeholder: (context, url) => CircularProgressIndicator(),
+                                  errorWidget: (context, url, error) => Icon(Icons.error),
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
                             ),
                           ),
-                        ),
-                        SizedBox(height: 16),
-                        Text(
-                          service['service_name'],
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18),
-                        ),
-                        SizedBox(height: 8),
-                        // Item Type
-                        _buildDetailText('Item Type: ', service['item_type']),
-                        SizedBox(height: 8),
-                        // Size
-                        _buildDetailText('Size: ', service['size']),
-                        SizedBox(height: 8),
-                        // Price
-                        _buildDetailText('Price: ', '₱${service['price']}'),
-                        SizedBox(height: 16),
-                        // Description
-                        _buildDetailText('Description: ', service['description']),
-                        SizedBox(height: 16),
-                        Align(
-                          alignment: Alignment.centerRight,
-                          child: ElevatedButton(
-                            onPressed: () {
-                              _showOrderModal(context, service);
-                            },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Color(0xFF2196F3),
-                              foregroundColor: Colors.white,
+                          SizedBox(height: 16),
+                          // Details Section
+                          Container(
+                            padding: EdgeInsets.all(16),
+                            decoration: BoxDecoration(
+                              color: Colors.grey[200], // Light background for details
+                              borderRadius: BorderRadius.circular(10),
                             ),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Icon(
-                                  FontAwesomeIcons.cartShopping, // Font Awesome shopping cart icon
-                                  color: Colors.white, // Set icon color to white
+                                // Service Name
+                                Text(
+                                  service['service_name'],
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18,
+                                    fontFamily: 'Montserrat',
+                                  ),
                                 ),
-                                SizedBox(width: 8),
-                                Text('Order'),
+                                SizedBox(height: 8),
+                                // Item Type
+                                _buildDetailText('Item Type: ', service['item_type']),
+                                SizedBox(height: 8),
+                                // Size
+                                _buildDetailText('Size: ', service['size']),
+                                SizedBox(height: 8),
+                                // Price
+                                _buildDetailText('Price: ', '₱${service['price']}'),
+                                SizedBox(height: 8),
+                                // Description
+                                _buildDetailText('Description: ', service['description']),
+                                SizedBox(height: 16),
+                                // Order Button
+                                Align(
+                                  alignment: Alignment.centerRight,
+                                  child: ElevatedButton(
+                                    onPressed: () {
+                                      _showOrderModal(context, service);
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: Color.fromARGB(255, 37, 231, 19), // Accent color
+                                      foregroundColor: const Color.fromARGB(255, 0, 0, 0),
+                                    ),
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Text('Order Now'),
+                                        SizedBox(width: 8),
+                                        Icon(
+                                          FontAwesomeIcons.cartShopping,
+                                          color: const Color.fromARGB(255, 0, 0, 0),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
                               ],
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 );
               },
             ),
-    );
-  }
+          ),
+  );
+}
 
-  // Helper function to build detail text
-  Widget _buildDetailText(String label, String value) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          label + value, // Concatenate label and value
-          style: TextStyle(
-              color: Colors.black, fontWeight: FontWeight.bold),
+// Helper function to build detail text
+Widget _buildDetailText(String label, String value) {
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      Text(
+        label + value, // Concatenate label and value
+        style: TextStyle(
+          color: Colors.black,
+          fontWeight: FontWeight.bold,
+          fontFamily: 'Lato',
         ),
-        SizedBox(height: 4),
-      ],
-    );
-  }
+      ),
+      SizedBox(height: 4),
+    ],
+  );
+}
 }
