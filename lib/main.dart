@@ -106,280 +106,307 @@ class _LandingPageState extends State<LandingPage> {
     _checkLoginStatus(); // Check login status on initialization
   }
 
- @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.transparent, // Set background color to transparent
-        elevation: 0, // Remove shadow
-        flexibleSpace: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 0, sigmaY: 0), // Apply blur effect
-          child: Container(
-            decoration: BoxDecoration(
-              color: const Color.fromARGB(172, 127, 126, 126).withOpacity(0.7), // Black background with transparency
+  @override
+Widget build(BuildContext context) {
+  return Scaffold(
+    appBar: AppBar(
+      backgroundColor: const Color.fromARGB(0, 255, 255, 255),
+      elevation: 0,
+      leading: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Image.asset(
+          'assets/logo.png',
+          height: 40,
+        ),
+      ),
+      actions: [
+        if (!_isLoggedIn)
+          TextButton(
+            onPressed: () {
+              Navigator.pushNamed(context, '/login');
+            },
+            child: Text(
+              'Login',
+              style: TextStyle(color: const Color.fromARGB(255, 0, 0, 0), fontSize: 16),
             ),
-            child: Padding(
-            padding: const EdgeInsets.only(left: 16.0, top: 16.0, bottom: 8.0),// Remove padding
-              child: Align(
-                   alignment: Alignment.topLeft,  // Align to the top-left corner
-                child: Image.asset(
-                    'assets/logo.png',
-                  height: 55,
+          ),
+        if (!_isLoggedIn)
+          TextButton(
+            onPressed: () {
+              Navigator.pushNamed(context, '/register');
+            },
+            child: Text(
+              'Register',
+              style: TextStyle(color: const Color.fromARGB(255, 0, 0, 0), fontSize: 16),
+            ),
+          ),
+      ],
+    ),  
+    body: Container(
+      decoration: BoxDecoration(
+color: Color(0xCCCC2B52),
+      ),
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            // Promotional Banner with Image
+            Container(
+              height: 250,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage('assets/KNC.png'), // Replace with your image path
+                  fit: BoxFit.cover, // Ensures the image covers the entire container
+                ),
+              ),
+              child: Center(
+                child: Container(
+                  padding: EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                              color: Colors.black54,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        'KNC PRINTZ',
+                        style: GoogleFonts.poppins(
+                          fontSize: 36,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                          shadows: [
+                            Shadow(
+                              blurRadius: 10.0,
+                              color: Colors.black54,
+                              offset: Offset(0.0, 0.0),
+                            ),
+                          ],
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                      SizedBox(height: 10),
+                      // Applying different colors to each word
+                      Text.rich(
+                        TextSpan(
+                          children: [
+                            TextSpan(
+                              text: 'Make ',
+                              style: GoogleFonts.poppins(
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold,
+                                color: Color(0xFF0066CC), // Blue color for "Make"
+                                shadows: [
+                                  Shadow(
+                                    blurRadius: 10.0,
+                                    color: Colors.black,
+                                    offset: Offset(0.0, 0.0),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            TextSpan(
+                              text: 'it ',
+                              style: GoogleFonts.poppins(
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold,
+                                color: Color(0xFFFF0099), // Pink color for "it"
+                                shadows: [
+                                  Shadow(
+                                    blurRadius: 10.0,
+                                    color: Colors.black,
+                                    offset: Offset(0.0, 0.0),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            TextSpan(
+                              text: 'happen',
+                              style: GoogleFonts.poppins(
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold,
+                                color: Color(0xFFFFD700), // Yellow color for "happen"
+                                shadows: [
+                                  Shadow(
+                                    blurRadius: 10.0,
+                                    color: Colors.black,
+                                    offset: Offset(0.0, 0.0),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-        ),
-        leading: const SizedBox.shrink(),
-        actions: [
-          if (!_isLoggedIn)
-            IconButton(
-              icon: Icon(FontAwesomeIcons.user),
-              onPressed: () {
-                Navigator.pushNamed(context, '/login');
-              },
-              tooltip: 'Login',
-              alignment: Alignment.centerLeft,
-            ),
-          if (!_isLoggedIn)
-            IconButton(
-              icon: Icon(FontAwesomeIcons.userPlus),
-              onPressed: () {
-                Navigator.pushNamed(context, '/register');
-              },
-              tooltip: 'Register',
-              alignment: Alignment.centerLeft,
-            ),
-        ],
-        centerTitle: false,
-      ),
-      body: Container(
-        decoration: BoxDecoration(
-          color: const Color.fromARGB(231, 41, 4, 26),
-        ),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              // Promotional Banner with Gradient
-              Container(
-                height: 250,
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [
-                      Color(0xFF0066CC),
-                      Color(0xFFFF0099),
-                    ],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                  ),
+            SizedBox(height: 20),
+            // Services Offered with Navigation
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Text(
+                'Services We Offer',
+                style: GoogleFonts.poppins(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: Color.fromARGB(255, 255, 255, 255),
                 ),
-                child: Center(
-                  child: Container(
-                    padding: EdgeInsets.all(20),
-                    decoration: BoxDecoration(
-                      color: Colors.black54,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
+              ),
+            ),
+            FutureBuilder<List<dynamic>>(
+              future: fetchServices(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(child: CircularProgressIndicator());
+                } else if (snapshot.hasError) {
+                  return Center(child: Text('Error: ${snapshot.error}'));
+                } else {
+                  final scrollController = ScrollController();
+                  return SizedBox(
+                    height: 300, // Set a fixed height for the card container
+                    child: Row(
                       children: [
-                        Text(
-                          'KNC PRINTZ',
-                          style: GoogleFonts.poppins(
-                            fontSize: 36,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                            shadows: [
-                              Shadow(
-                                blurRadius: 10.0,
-                                color: Colors.black,
-                                offset: Offset(0.0, 0.0),
-                              ),
-                            ],
-                          ),
-                          textAlign: TextAlign.center,
+                        // Left Navigation Icon
+                        IconButton(
+                          icon: Icon(Icons.chevron_left, color: Colors.white, size: 32),
+                          onPressed: () {
+                            scrollController.animateTo(
+                              scrollController.offset - 250, // Adjust scroll offset
+                              duration: Duration(milliseconds: 300),
+                              curve: Curves.easeOut,
+                            );
+                          },
                         ),
-                        SizedBox(height: 10),
-                        Text(
-                          'Make it happen',
-                          style: GoogleFonts.poppins(
-                            fontSize: 24,
-                            color: Colors.white,
-                            shadows: [
-                              Shadow(
-                                blurRadius: 10.0,
-                                color: Colors.black,
-                                offset: Offset(0.0, 0.0),
-                              ),
-                            ],
+                        Expanded(
+                          child: ListView.builder(
+                            controller: scrollController,
+                            scrollDirection: Axis.horizontal,
+                            itemCount: snapshot.data!.length,
+                            itemBuilder: (context, index) {
+                              final service = snapshot.data![index];
+                              return ServiceCard(
+                                serviceName: service['service_name'],
+                                description: service['description'],
+                                price: '₱${service['price']}',
+                                imageUrl: service['uploaded_image_url'],
+                              );
+                            },
                           ),
-                          textAlign: TextAlign.center,
+                        ),
+                        // Right Navigation Icon
+                        IconButton(
+                          icon: Icon(Icons.chevron_right, color: Colors.white, size: 32),
+                          onPressed: () {
+                            scrollController.animateTo(
+                              scrollController.offset + 250, // Adjust scroll offset
+                              duration: Duration(milliseconds: 300),
+                              curve: Curves.easeOut,
+                            );
+                          },
                         ),
                       ],
                     ),
-                  ),
-                ),
-              ),
-              SizedBox(height: 20),
+                  );
+                }
+              },
+            ),
 
-          // Services Offered
-Padding(
-  padding: const EdgeInsets.all(16.0),
-  child: Text(
-    'Services We Offer',
-    style: GoogleFonts.poppins(
-      fontSize: 24,
-      fontWeight: FontWeight.bold,
-      color: Color.fromARGB(255, 255, 255, 255),
-    ),
-  ),
-),
-FutureBuilder<List<dynamic>>(
-  future: fetchServices(),
-  builder: (context, snapshot) {
-    if (snapshot.connectionState == ConnectionState.waiting) {
-      return Center(child: CircularProgressIndicator());
-    } else if (snapshot.hasError) {
-      return Center(child: Text('Error: ${snapshot.error}'));
-    } else {
-      // Determine the number of columns based on screen width
-      final width = MediaQuery.of(context).size.width;
-      int crossAxisCount = width < 600 ? 2 : 3; // 2 columns for mobile, 3 for larger screens
-
-      return GridView.builder(
-        shrinkWrap: true,
-        physics: NeverScrollableScrollPhysics(),
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: crossAxisCount,
-          childAspectRatio: 0.75, // Adjust the aspect ratio if needed
-        ),
-        itemCount: snapshot.data!.length,
-        itemBuilder: (context, index) {
-          final service = snapshot.data![index];
-          return ServiceCard(
-            serviceName: service['service_name'],
-            description: service['description'],
-            price: '₱${service['price']}',
-            imageUrl: service['uploaded_image_url'],
-          );
-        },
-      );
-    }
-  },
-),
-
-
+            // "Explore Our Services" Button
             Padding(
-  padding: const EdgeInsets.all(16.0),
-  child: ElevatedButton(
-    onPressed: () {
-      if (_isLoggedIn) {
-        // If logged in, navigate to the home route
-        final prefs = SharedPreferences.getInstance();
-        prefs.then((prefs) {
-          final userId = prefs.getString('userId');
-          Navigator.pushReplacementNamed(context, '/home', arguments: {'userId': userId});
-        });
-      } else {
-        // If not logged in, navigate to the login page
-        Navigator.pushNamed(context, '/login');
-      }
-    },
-    style: ElevatedButton.styleFrom(
-      backgroundColor: Color.fromARGB(255, 229, 47, 11),
-      foregroundColor: Colors.white,
-      padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
-      textStyle: GoogleFonts.poppins(fontSize: 18),
-    ),
-    child: Text('Explore Our Services'),
-  ),
-),
-
-              // Footer
-              SizedBox(height: 40),
-              Container(
-                padding: EdgeInsets.all(16),
-                color: Color.fromARGB(255, 27, 35, 50),
-                child: Center(
-                  child: Column(
-                    children: [
-                      Text(
-                        '© 2024 KNC Printz. All rights reserved.',
-                        style: GoogleFonts.poppins(color: Colors.white),
-                      ),
-                      SizedBox(height: 10),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          IconButton(
-                            onPressed: () async {
-                              // Handle email click
-                              final Uri emailUri = Uri(
-                                scheme: 'mailto',
-                                path: 'kncprintz@gmail.com',
-                                queryParameters: {'subject': 'KNC Printz Inquiry'},
-                              );
-                              if (await canLaunchUrl(emailUri)) {
-                                await launchUrl(emailUri);
-                              } else {
-                                // Handle the case where the URL cannot be launched
-                                print('Could not launch $emailUri');
-                              }
-                            },
-                            icon: Icon(
-                              Icons.email,
-                              color: Colors.white,
-                            ),
-                          ),
-                          IconButton(
-                            onPressed: () async {
-                              // Handle phone number click
-                              final Uri phoneUri = Uri(
-                                scheme: 'tel',
-                                path: '09173121564', // Replace with your phone number
-                              );
-                              if (await canLaunchUrl(phoneUri)) {
-                                await launchUrl(phoneUri);
-                              } else {
-                                // Handle the case where the URL cannot be launched
-                                print('Could not launch $phoneUri');
-                              }
-                            },
-                            icon: Icon(
-                              Icons.phone,
-                              color: Colors.white,
-                            ),
-                          ),
-                          IconButton(
-                            onPressed: () async {
-                              // Handle Facebook click
-                              final Uri facebookUri = Uri.parse('https://www.facebook.com/kncprintz'); // Replace with your Facebook page URL
-                              if (await canLaunchUrl(facebookUri)) {
-                                await launchUrl(facebookUri);
-                              } else {
-                                // Handle the case where the URL cannot be launched
-                                print('Could not launch $facebookUri');
-                              }
-                            },
-                            icon: Icon(
-                              FontAwesomeIcons.facebook,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
+              padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 16.0),
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, '/login'); // Navigate to login.dart
+                },
+                style: ElevatedButton.styleFrom(
+backgroundColor: Color(0xFFFABC3F),
+                  padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 40.0),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+                child: Text(
+                  'Explore Our Services',
+                  style: GoogleFonts.poppins(
+                    color: const Color.fromARGB(255, 28, 28, 28),
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
-            ],
-          ),
+            ),
+
+
+            // Footer
+            SizedBox(height: 40),
+            Container(
+              padding: EdgeInsets.all(16),
+              color: Color.fromARGB(255, 27, 35, 50),
+              child: Center(
+                child: Column(
+                  children: [
+                    Text(
+                      '© 2024 KNC Printz. All rights reserved.',
+                      style: GoogleFonts.poppins(color: Colors.white),
+                    ),
+                    SizedBox(height: 10),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        IconButton(
+                          onPressed: () async {
+                            final Uri emailUri = Uri(
+                              scheme: 'mailto',
+                              path: 'kncprintz@gmail.com',
+                              queryParameters: {'subject': 'KNC Printz Inquiry'},
+                            );
+                            if (await canLaunch(emailUri.toString())) {
+                              await launch(emailUri.toString());
+                            } else {
+                              throw 'Could not launch email';
+                            }
+                          },
+                          icon: Icon(Icons.email, color: Colors.white),
+                        ),
+                        IconButton(
+                          onPressed: () async {
+                            final Uri phoneUri = Uri(scheme: 'tel', path: '09173121564');
+                            if (await canLaunch(phoneUri.toString())) {
+                              await launch(phoneUri.toString());
+                            } else {
+                              throw 'Could not launch phone';
+                            }
+                          },
+                          icon: Icon(Icons.phone, color: Colors.white),
+                        ),
+                        IconButton(
+                          onPressed: () async {
+                            final Uri facebookUri =
+                                Uri.parse('https://www.facebook.com/kncprintz');
+                            if (await canLaunch(facebookUri.toString())) {
+                              await launch(facebookUri.toString());
+                            } else {
+                              throw 'Could not launch Facebook';
+                            }
+                          },
+                          icon: Icon(FontAwesomeIcons.facebook, color: Colors.white),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
         ),
       ),
-    );
-  }
+    ),
+  );
 }
-
+}
 class ServiceCard extends StatelessWidget {
   final String serviceName;
   final String description;
@@ -391,61 +418,63 @@ class ServiceCard extends StatelessWidget {
     required this.description,
     required this.price,
     required this.imageUrl,
-    super.key,
-  });
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final double imageHeight = MediaQuery.of(context).size.width < 600 ? 80 : 100; // Adjust height based on screen size
-
-    return Card(
-      elevation: 6,
-      margin: EdgeInsets.all(8),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.network(
-              imageUrl,
-              height: imageHeight,
-              fit: BoxFit.cover,
-            ),
-            SizedBox(height: 10),
-            Text(
-              serviceName,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: GoogleFonts.poppins(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: Color.fromARGB(255, 4, 4, 4),
+    return Container(
+      width: 250, // Set a fixed width for each card
+      margin: EdgeInsets.only(right: 16), // Add margin to the right
+      child: Card(
+        elevation: 6,
+        margin: EdgeInsets.all(8),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.network(
+                imageUrl,
+                height: 120,
+                fit: BoxFit.cover,
               ),
-            ),
-            SizedBox(height: 5),
-            Text(
-              description,
-              maxLines: 2, // Control line overflow
-              overflow: TextOverflow.ellipsis,
-              style: GoogleFonts.poppins(
-                fontSize: 14,
-                color: Colors.black54,
+              SizedBox(height: 10),
+              Text(
+                serviceName,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: GoogleFonts.poppins(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Color.fromARGB(255, 4, 4, 4),
+                ),
               ),
-              textAlign: TextAlign.center,
-            ),
-            SizedBox(height: 5),
-            Text(
-              'Price: $price',
-              style: GoogleFonts.poppins(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-                color: Color.fromARGB(255, 4, 4, 4),
+              SizedBox(height: 5),
+              Text(
+                description,
+                maxLines: 2, // Control line overflow
+                overflow: TextOverflow.ellipsis,
+                style: GoogleFonts.poppins(
+                  fontSize: 14,
+                  color: Colors.black54,
+                ),
+                textAlign: TextAlign.center,
               ),
-            ),
-          ],
+              SizedBox(height: 5),
+              Text(
+                'Price: $price',
+                style: GoogleFonts.poppins(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: Color.fromARGB(255, 4, 4, 4),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

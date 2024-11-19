@@ -67,8 +67,8 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
 
     try {
       final smtpServer = gmail(
-        'markgerald.talle@evsu.edu.ph',
-        'MARKEYrald18!',
+        'egie.arradaza@gmail.com',
+        'bvqwupbpgfenawaq',
       );
 
       final message = Message()

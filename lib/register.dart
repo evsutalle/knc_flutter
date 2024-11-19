@@ -119,14 +119,7 @@ class _RegisterPageState extends State<RegisterPage> {
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              const Color(0xFF0066CC),
-              const Color(0xFFFF0099),
-            ],
-          ),
+                  color: const Color.fromARGB(255, 231, 221, 221),
         ),
         padding: const EdgeInsets.all(16.0),
         child: Form(
@@ -154,7 +147,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const Text(
-                        'Register',
+                        'Create account',
                         style: TextStyle(
                           fontSize: 32,
                           fontWeight: FontWeight.bold,
@@ -215,7 +208,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         child: ElevatedButton(
                           onPressed: _register,
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: Theme.of(context).primaryColor,
+                            backgroundColor: Colors.blueAccent,
                             padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 32.0),
                             foregroundColor: Colors.black,
                           ),

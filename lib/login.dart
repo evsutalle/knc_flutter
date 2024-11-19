@@ -163,148 +163,149 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
+@override
+Widget build(BuildContext context) {
+  return Scaffold(
+    body: SingleChildScrollView(
+      child: Container(
         decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              Color(0xFF0066CC), // Primary color
-              Color(0xFFFF0099), // Secondary color
+          color: Colors.white,
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.center, // Center widgets horizontally
+            children: <Widget>[
+              // Image with left margin
+              Container(
+                margin: const EdgeInsets.only(left: 20.0), // Add left margin
+                child: LayoutBuilder(
+                  builder: (context, constraints) {
+                    double imageWidth = constraints.maxWidth * 1; // 80% of available width
+                    double imageHeight = imageWidth; // Maintain aspect ratio
+                    return Image.asset(
+                      'assets/login.png',
+                      height: imageHeight,
+                      width: imageWidth,
+                      fit: BoxFit.contain,
+                    );
+                  },
+                ),
+              ),
+              // Login form directly below the image
+              Container(
+                padding: EdgeInsets.zero,
+                margin: EdgeInsets.zero,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                child: Column(
+                  children: [
+                    Text(
+                      "Welcome Back!",
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: const Color.fromARGB(255, 0, 0, 0),
+                      ),
+                    ),
+                    SizedBox(height: 16),
+                    TextField(
+                      controller: _usernameController,
+                      style: TextStyle(color: Colors.black),
+                      decoration: InputDecoration(
+                        labelText: "Username",
+                        labelStyle: TextStyle(color: Colors.black),
+                        prefixIcon: Icon(FontAwesomeIcons.user, color: Colors.blue),
+                      ),
+                    ),
+                    SizedBox(height: 12),
+                    TextField(
+                      controller: _passwordController,
+                      style: TextStyle(color: Colors.black),
+                      obscureText: _obscureText,
+                      decoration: InputDecoration(
+                        labelText: "Password",
+                        labelStyle: TextStyle(color: Colors.black),
+                        prefixIcon: Icon(FontAwesomeIcons.lock, color: Colors.blue),
+                        suffixIcon: IconButton(
+                          onPressed: _togglePasswordVisibility,
+                          icon: Icon(
+                            _obscureText ? Icons.visibility_off : Icons.visibility,
+                            color: Colors.grey,
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 12),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Checkbox(
+                          value: _rememberMe,
+                          onChanged: (value) {
+                            setState(() {
+                              _rememberMe = value!;
+                            });
+                          },
+                        ),
+                        SizedBox(width: 8),
+                        Text('Remember Me', style: TextStyle(color: Colors.black)),
+                      ],
+                    ),
+                    SizedBox(height: 16),
+                    ElevatedButton(
+                      onPressed: _isLoading ? null : login,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.blue,
+                        padding: EdgeInsets.symmetric(horizontal: 40, vertical: 16),
+                        textStyle: TextStyle(fontSize: 16),
+                      ),
+                      child: Text("Login", style: TextStyle(color: Colors.white)),
+                    ),
+                    SizedBox(height: 12),
+                    if (_isLoading)
+                      CircularProgressIndicator(),
+                    if (!_isLoading)
+                      Text(
+                        _message,
+                        style: TextStyle(color: Colors.red),
+                      ),
+                    SizedBox(height: 12),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text("Don't have an account?", style: TextStyle(color: Colors.black)),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pushNamed(context, '/register');
+                          },
+                          child: Text("Register", style: TextStyle(color: const Color.fromARGB(255, 0, 166, 249))),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text("Forgot Password?", style: TextStyle(color: Colors.black)),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pushNamed(context, '/ForgotPasswordPage');
+                          },
+                          child: Text("Reset", style: TextStyle(color: const Color.fromARGB(255, 0, 166, 249))),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
             ],
           ),
         ),
-        child: Padding(
-          padding: EdgeInsets.all(16.0),
-          child: Center(
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Container(
-                    padding: EdgeInsets.all(20.0),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(10.0),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.5),
-                          spreadRadius: 5,
-                          blurRadius: 7,
-                          offset: Offset(0, 3),
-                        ),
-                      ],
-                    ),
-                    child: Column(
-                      children: [
-                        Text(
-                          "Welcome Back",
-                          style: TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
-                            color: const Color.fromARGB(255, 0, 0, 0),
-                          ),
-                        ),
-                        SizedBox(height: 24),
-                        TextField(
-                          controller: _usernameController,
-                          style: TextStyle(color: Colors.black),
-                          decoration: InputDecoration(
-                            labelText: "Username",
-                            labelStyle: TextStyle(color: Colors.black),
-                            prefixIcon: Icon(FontAwesomeIcons.user, color: Colors.blue), // Added prefix icon
-                          ),
-                        ),
-                        SizedBox(height: 16),
-                        TextField(
-                          controller: _passwordController,
-                          style: TextStyle(color: Colors.black),
-                          obscureText: _obscureText,
-                          decoration: InputDecoration(
-                            labelText: "Password",
-                            labelStyle: TextStyle(color: Colors.black),
-                            prefixIcon: Icon(FontAwesomeIcons.lock, color: Colors.blue), // Added prefix icon
-                            suffixIcon: IconButton(
-                              onPressed: _togglePasswordVisibility,
-                              icon: Icon(
-                                _obscureText ? Icons.visibility_off : Icons.visibility,
-                                color: Colors.grey,
-                              ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: 16),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start, // Align to the start
-                          children: [
-                            Checkbox(
-                              value: _rememberMe,
-                              onChanged: (value) {
-                                setState(() {
-                                  _rememberMe = value!;
-                                });
-                              },
-                            ),
-                            SizedBox(width: 8), // Add some space between checkbox and text
-                            Text('Remember Me', style: TextStyle(color: Colors.black)),
-                          ],
-                        ),
-                        SizedBox(height: 24),
-                        ElevatedButton(
-                          onPressed: _isLoading ? null : login, // Disable button when loading
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.blue,
-                            padding: EdgeInsets.symmetric(horizontal: 40, vertical: 16),
-                            textStyle: TextStyle(fontSize: 16),
-                          ),
-                          child: Text("Login", style: TextStyle(color: Colors.white)),
-                        ),
-                        SizedBox(height: 16),
-                        // Show loading indicator
-                        if (_isLoading)
-                          CircularProgressIndicator(),
-                        if (!_isLoading)
-                          Text(
-                            _message,
-                            style: TextStyle(color: Colors.red),
-                          ),
-                        SizedBox(height: 16),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text("Don't have an account?", style: TextStyle(color: Colors.black)),
-                            TextButton(
-                              onPressed: () {
-                                Navigator.pushNamed(context, '/register');
-                              },
-                              child: Text("Register", style: TextStyle(color: Colors.blue)),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text("Forgot Password?", style: TextStyle(color: Colors.black)),
-                            TextButton(
-                              onPressed: () {
-                                Navigator.pushNamed(context, '/ForgotPasswordPage');
-                              },
-                              child: Text("Reset", style: TextStyle(color: Colors.blue)),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ],  
-              ),
-            ),
-          ),
-        ),
       ),
-    );
-  }
+    ),
+  );
+}
 }
